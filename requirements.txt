@@ -1,0 +1,6 @@
+dash==4.1.0
+plotly==6.7.0
+pandas==3.0.2
+scikit-learn==1.7.1
+numpy==2.3.2
+joblib==1.5.1

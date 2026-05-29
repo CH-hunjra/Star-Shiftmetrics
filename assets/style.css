@@ -1,0 +1,46 @@
+/* Global reset — removes default browser margin/padding */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* Body and root background — ensures full dark page even before Dash renders */
+html, body {
+    background-color: #0d0d14;
+    height: 100%;
+}
+
+/* Dark scrollbar — keeps the dark theme consistent */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #0d0d14;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #2a2a3d;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #5c9eff;
+}
+
+/* Removes the white line Dash adds beneath the tab bar */
+.dash-tabs {
+    border-bottom: none !important;
+}
+
+/* Dropdown — force all child text to match the theme colour */
+#colour-index-dropdown * {
+    color: #e8e8f0 !important;
+    background-color: #1e1e2d !important;
+}
+
+/* Dropdown — hovered option slightly lighter */
+#colour-index-dropdown *:hover {
+    background-color: #2a2a3d !important;
+}
