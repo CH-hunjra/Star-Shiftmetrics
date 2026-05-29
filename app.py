@@ -188,19 +188,11 @@ app.layout = html.Div([
 
                             # About
                             html.H2("About This Project", style=section_heading),
-                            html.Ul([
-                                html.Li("What this project is and why you built it."),
-                                html.Li("What problem it solves and what you hoped to learn."),
-                            ], style={**body_text, 'paddingLeft': '20px'}),
 
                             html.Hr(style=divider),
 
                             # What is SDSS
                             html.H2("What is SDSS?", style=section_heading),
-                            html.Ul([
-                                html.Li("A brief explanation of the Sloan Digital Sky Survey."),
-                                html.Li("What the DR18 dataset contains and why it was chosen."),
-                            ], style={**body_text, 'paddingLeft': '20px'}),
 
                             html.Hr(style=divider),
 
@@ -228,7 +220,7 @@ app.layout = html.Div([
         dcc.Tab(label='Models', value='models',
                 style=tab_style, selected_style=tab_selected_style,
                 children=[
-                    html.Div("Models section — coming soon.",
+                    html.Div("Models section, coming soon.",
                              style={'color': COLORS['text_primary'], 'padding': '40px'})
                 ]),
 
@@ -304,7 +296,7 @@ app.layout = html.Div([
         dcc.Tab(label='FAQ', value='faq',
                 style=tab_style, selected_style=tab_selected_style,
                 children=[
-                    html.Div("FAQ section — coming soon.",
+                    html.Div("FAQ section, coming soon.",
                              style={'color': COLORS['text_primary'], 'padding': '40px'})
                 ]),
 
@@ -331,12 +323,12 @@ COLOUR_PAIRS = {
     'u-g_i-z': ('u - g', 'i - z', (-0.5, 3.0), (-0.5, 1.0)),
 }
 
-# Sample once — 15,000 points is enough to show the pattern clearly
+# Sample once - 15,000 points is enough to show the pattern clearly
 df_plot = df_model.sample(n=15000, random_state=42)
 
 COLOUR_DESCRIPTIONS = {
     'u-g_g-r': [
-        "u-g measures the brightness difference between ultraviolet and green light — higher values indicate redder objects.",
+        "u-g measures the brightness difference between ultraviolet and green light. Higher values indicate redder objects.",
         "g-r captures the green-to-red shift. Together these two indices describe the broad optical colour of each object.",
     ],
     'g-r_r-i': [
@@ -345,10 +337,10 @@ COLOUR_DESCRIPTIONS = {
     ],
     'r-i_i-z': [
         "r-i and i-z compare adjacent near-infrared bands, making this plot sensitive to higher-redshift objects.",
-        "As redshift increases, visible light shifts into these infrared channels — seen as tighter clustering at higher values.",
+        "As redshift increases, visible light shifts into these infrared channels, seen as tighter clustering at higher values.",
     ],
     'u-g_i-z': [
-        "The broadest colour comparison available — ultraviolet against infrared — producing the strongest correlation with redshift.",
+        "The broadest colour comparison available, spanning ultraviolet to infrared, producing the strongest correlation with redshift.",
         "Yellow points (high redshift) consistently cluster toward higher values on both axes.",
     ],
 }
