@@ -104,7 +104,7 @@ def stat_card(value, label):
     ], style={
         'backgroundColor': COLORS['bg_card'],
         'border':          f"1px solid {COLORS['border']}",
-        'borderRadius':    '8px',
+        'borderRadius':    '4px',
         'padding':         '20px 24px',
         'flex':            '1',
         'minWidth':        '150px',
@@ -213,7 +213,7 @@ app.layout = html.Div([
                                 'marginTop': '20px',
                             }),
 
-                        ], style={'maxWidth': '960px'}),
+                        ], style={'maxWidth': '960px', 'margin': '0 auto'}),
                     ], style={'padding': '40px 40px'}),
                 ]),
 
@@ -299,7 +299,7 @@ app.layout = html.Div([
                                         'flexShrink':      '0',
                                         'backgroundColor': COLORS['bg_card'],
                                         'border':          f"1px solid {COLORS['border']}",
-                                        'borderRadius':    '8px',
+                                        'borderRadius':    '4px',
                                         'padding':         '20px',
                                     }
                                 ),
@@ -310,7 +310,7 @@ app.layout = html.Div([
                                 'marginTop':      '16px',
                             }),
 
-                        ], style={'maxWidth': '960px'}),
+                        ], style={'maxWidth': '960px', 'margin': '0 auto'}),
                     ], style={'padding': '40px'}),
                 ]),
 
@@ -325,7 +325,7 @@ app.layout = html.Div([
 
                             html.Hr(style=divider),
 
-                        ], style={'maxWidth': '960px'}),
+                        ], style={'maxWidth': '960px', 'margin': '0 auto'}),
                     ], style={'padding': '40px'}),
                 ]),
 
@@ -340,7 +340,7 @@ app.layout = html.Div([
 
                             html.Hr(style=divider),
 
-                        ], style={'maxWidth': '960px'}),
+                        ], style={'maxWidth': '960px', 'margin': '0 auto'}),
                     ], style={'padding': '40px'}),
                 ]),
 
