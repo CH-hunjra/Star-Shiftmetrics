@@ -217,31 +217,6 @@ app.layout = html.Div([
                     ], style={'padding': '40px 40px'}),
                 ]),
 
-        # ── Models ────────────────────────────────────────────────────────────
-        dcc.Tab(label='Models', value='models',
-                style=tab_style, selected_style=tab_selected_style,
-                children=[
-                    html.Div([
-                        html.Div([
-
-                            html.H2("Models", style=section_heading),
-
-                            html.Hr(style=divider),
-
-                            html.H3("Linear Regression", style=subsection_heading),
-
-                            html.Hr(style=divider),
-
-                            html.H3("Random Forest", style=subsection_heading),
-
-                            html.Hr(style=divider),
-
-                            html.H3("Gradient Boosting", style=subsection_heading),
-
-                        ], style={'maxWidth': '960px'}),
-                    ], style={'padding': '40px'}),
-                ]),
-
         # ── Predictive Modelling ──────────────────────────────────────────────
         dcc.Tab(label='Predictive Modelling', value='predictive',
                 style=tab_style, selected_style=tab_selected_style,
@@ -334,6 +309,21 @@ app.layout = html.Div([
                                 'alignItems':     'flex-start',
                                 'marginTop':      '16px',
                             }),
+
+                        ], style={'maxWidth': '960px'}),
+                    ], style={'padding': '40px'}),
+                ]),
+
+        # ── Calculations ──────────────────────────────────────────────────────
+        dcc.Tab(label='Calculations', value='calculations',
+                style=tab_style, selected_style=tab_selected_style,
+                children=[
+                    html.Div([
+                        html.Div([
+
+                            html.H2("Calculations", style=section_heading),
+
+                            html.Hr(style=divider),
 
                         ], style={'maxWidth': '960px'}),
                     ], style={'padding': '40px'}),
