@@ -5,6 +5,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_squared_error, r2_score
 import plotly.graph_objects as go
+import numpy as np
 
 # ── Colour palette ───────────────────────────────────────────────────────────
 COLORS = {
@@ -302,8 +303,37 @@ app.layout = html.Div([
                             ),
                             html.Ul(id='colour-description',
                                     style={**body_text, 'paddingLeft': '20px', 'marginTop': '14px'}),
-                            dcc.Graph(id='colour-index-graph',
-                                      style={'marginTop': '16px'}),
+                            html.Div([
+                                dcc.Graph(
+                                    id='colour-index-graph',
+                                    style={'flex': '1', 'minWidth': '0'},
+                                ),
+                                html.Div(
+                                    id='click-info-panel',
+                                    children=html.P(
+                                        "Click any point to identify it",
+                                        style={
+                                            'color':     COLORS['text_muted'],
+                                            'fontSize':  '13px',
+                                            'textAlign': 'center',
+                                            'marginTop': '60px',
+                                        }
+                                    ),
+                                    style={
+                                        'width':           '260px',
+                                        'flexShrink':      '0',
+                                        'backgroundColor': COLORS['bg_card'],
+                                        'border':          f"1px solid {COLORS['border']}",
+                                        'borderRadius':    '8px',
+                                        'padding':         '20px',
+                                    }
+                                ),
+                            ], style={
+                                'display':        'flex',
+                                'gap':            '20px',
+                                'alignItems':     'flex-start',
+                                'marginTop':      '16px',
+                            }),
 
                         ], style={'maxWidth': '960px'}),
                     ], style={'padding': '40px'}),
@@ -350,6 +380,18 @@ COLOUR_PAIRS = {
 # Sample once - 15,000 points is enough to show the pattern clearly
 df_plot = df_model.sample(n=15000, random_state=42)
 
+# Lookback time lookup table — Planck 2018 flat ΛCDM (H0=67.4, Om=0.315, OL=0.685)
+# Hubble time in Gyr: 977.8 / H0
+_tH     = 977.8 / 67.4
+_z_lt   = np.linspace(0, 7, 10000)
+_dz_lt  = _z_lt[1] - _z_lt[0]
+_E_lt   = np.sqrt(0.315 * (1 + _z_lt)**3 + 0.685)
+_f_lt   = 1.0 / ((1 + _z_lt) * _E_lt)
+_lt_arr = np.concatenate([[0.0], np.cumsum(0.5 * (_f_lt[:-1] + _f_lt[1:]) * _dz_lt)]) * _tH
+
+def lookback_gyr(z):
+    return float(np.interp(z, _z_lt, _lt_arr))
+
 COLOUR_DESCRIPTIONS = {
     'u-g_g-r': [
         "u-g measures the brightness difference between ultraviolet and green light. Higher values indicate redder objects.",
@@ -394,6 +436,8 @@ def update_colour_scatter(pair):
                 bordercolor='#2a2a3d',
             ),
         ),
+        customdata=df_plot[['ra', 'dec', 'class', 'redshift']].values,
+        hovertemplate='<b>%{customdata[2]}</b><br>Redshift: %{customdata[3]:.3f}<extra></extra>',
         showlegend=False,
     ))
 
@@ -410,6 +454,80 @@ def update_colour_scatter(pair):
     bullets = [html.Li(line) for line in COLOUR_DESCRIPTIONS[pair]]
 
     return fig, bullets
+
+
+@app.callback(
+    Output('click-info-panel', 'children'),
+    Input('colour-index-graph', 'clickData'),
+    prevent_initial_call=True,
+)
+def identify_point(clickData):
+    if clickData is None:
+        return html.P(
+            "Click any point to identify it",
+            style={'color': COLORS['text_muted'], 'fontSize': '13px',
+                   'textAlign': 'center', 'marginTop': '60px'},
+        )
+
+    point     = clickData['points'][0]
+    ra        = point['customdata'][0]
+    dec       = point['customdata'][1]
+    obj_class = point['customdata'][2]
+    redshift  = point['customdata'][3]
+
+    sdss_url = (
+        f"https://skyserver.sdss.org/dr18/en/tools/explore/summary.aspx"
+        f"?ra={ra}&dec={dec}"
+    )
+
+    row_s   = {'display': 'flex', 'justifyContent': 'space-between',
+               'marginBottom': '10px', 'fontSize': '13px'}
+    label_s = {'color': COLORS['text_muted']}
+    value_s = {'color': COLORS['text_primary'], 'fontWeight': '600'}
+
+    rows = [
+        html.P("Object Identified", style={
+            'color':        COLORS['text_primary'],
+            'fontSize':     '14px',
+            'fontWeight':   '600',
+            'marginBottom': '16px',
+        }),
+        html.Div([html.Span("Class",    style=label_s),
+                  html.Span(obj_class,  style=value_s)], style=row_s),
+        html.Div([html.Span("Redshift", style=label_s),
+                  html.Span(f"{redshift:.4f}", style=value_s)], style=row_s),
+        html.Div([html.Span("RA",  style=label_s),
+                  html.Span(f"{ra:.5f}", style=value_s)], style=row_s),
+        html.Div([html.Span("Dec", style=label_s),
+                  html.Span(f"{dec:.5f}", style=value_s)], style=row_s),
+    ]
+
+    if obj_class in ('GALAXY', 'QSO'):
+        lt = lookback_gyr(redshift)
+        rows.append(html.Div([
+            html.Span("Lookback Time", style=label_s),
+            html.Span(f"{lt:.2f} Gyr",  style=value_s),
+        ], style=row_s))
+
+    rows += [
+        html.Hr(style={'border': 'none',
+                       'borderTop': f"1px solid {COLORS['border']}",
+                       'margin': '16px 0'}),
+        html.A(
+            "Open in SDSS Explorer",
+            href=sdss_url,
+            target="_blank",
+            style={
+                'color':          COLORS['accent'],
+                'fontSize':       '13px',
+                'textDecoration': 'none',
+                'display':        'block',
+                'textAlign':      'center',
+            },
+        ),
+    ]
+
+    return rows
 
 
 if __name__ == '__main__':
