@@ -220,8 +220,25 @@ app.layout = html.Div([
         dcc.Tab(label='Models', value='models',
                 style=tab_style, selected_style=tab_selected_style,
                 children=[
-                    html.Div("Models section, coming soon.",
-                             style={'color': COLORS['text_primary'], 'padding': '40px'})
+                    html.Div([
+                        html.Div([
+
+                            html.H2("Models", style=section_heading),
+
+                            html.Hr(style=divider),
+
+                            html.H3("Linear Regression", style=subsection_heading),
+
+                            html.Hr(style=divider),
+
+                            html.H3("Random Forest", style=subsection_heading),
+
+                            html.Hr(style=divider),
+
+                            html.H3("Gradient Boosting", style=subsection_heading),
+
+                        ], style={'maxWidth': '960px'}),
+                    ], style={'padding': '40px'}),
                 ]),
 
         # ── Predictive Modelling ──────────────────────────────────────────────
@@ -296,8 +313,15 @@ app.layout = html.Div([
         dcc.Tab(label='FAQ', value='faq',
                 style=tab_style, selected_style=tab_selected_style,
                 children=[
-                    html.Div("FAQ section, coming soon.",
-                             style={'color': COLORS['text_primary'], 'padding': '40px'})
+                    html.Div([
+                        html.Div([
+
+                            html.H2("FAQ", style=section_heading),
+
+                            html.Hr(style=divider),
+
+                        ], style={'maxWidth': '960px'}),
+                    ], style={'padding': '40px'}),
                 ]),
 
     ], style={
