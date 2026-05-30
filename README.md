@@ -22,12 +22,11 @@ Current Features:
 - Overview: My reasons for creating the project, and what I aim to portray and achieve through it.
 
 - Predictive Modelling: This is the main section, it contains all the current models, each trained on SDSS data, each visualising the data in a different way, and predicting redshift at different accuracy levels. Under each model is the following:
-
-        - An overview of the model.
-        - Model Performance data (MSE and R²)
-        - True VS Predicted Redshift: A detailed, interactive graph comparing true redshift versus the models predicted redshift. visually portraying accuracy.
-        - Colour Index Exploration: A deep-diving, interactive graph which compares different wavelengths of light and what patterns and understandings they show across 70,000+ data points.
-        - Lookup Table: A table that shows the selected celestial objects information, alongside personal backend calculations, an accurate Lookback Age calculation, alongside a link to the objects SDSS data and map visuals.
+    - An overview of the model.
+    - Model Performance data (MSE and R²)
+    - True VS Predicted Redshift: A detailed, interactive graph comparing true redshift versus the models predicted redshift. visually portraying accuracy.
+    - Colour Index Exploration: A deep-diving, interactive graph which compares different wavelengths of light and what patterns and understandings they show across 70,000+ data points.
+    - Lookup Table: A table that shows the selected celestial objects information, alongside personal backend calculations, an accurate Lookback Age calculation, alongside a link to the objects SDSS data and map visuals.
 
 - Calculations: A deep-dive into the calculations used for this project, alongside examples written in LaTeX.
 
